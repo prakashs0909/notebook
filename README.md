@@ -32,7 +32,7 @@ A full-stack web application that allows users to securely create, manage, and o
 
 ### ➕ Add Note
 
-![Add Note](.Addnote.png)
+![Add Note](./AddNote.png)
 
 ### 🏠 Edit Note Page
 
