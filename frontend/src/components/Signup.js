@@ -15,7 +15,7 @@ const Signup = (props) => {
       body: JSON.stringify({name: credential.name, email: credential.email, password: credential.password }),
     });
     const json = await response.json();
-    // console.log(json)
+    // console.log(json); // Debugging: Log the backend response
     setCredential({name:"", email: "", password:""})
 
     if (json.success) {
@@ -24,7 +24,9 @@ const Signup = (props) => {
       navigate("/");
     }
     else{
-      props.showalert("User is already exist", "warning");
+      // Handle both `error` and `errors` fields
+      const errorMessage = json.error || (json.errors && json.errors[0].msg) || "An unknown error occurred";
+      props.showalert(errorMessage, "danger");
     }
     
   };
@@ -123,7 +125,7 @@ const Signup = (props) => {
             <button
               type="submit"
               className="flex justify-center rounded-md bg-indigo-600  ml-3 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/")}
             >
               Login
             </button>

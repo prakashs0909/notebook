@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState } from 'react';
 import noteContext from '../context/notes/noteContext';
 
 const Addnote = (props) => {
@@ -7,47 +7,47 @@ const Addnote = (props) => {
   const [note, setNotes] = useState({ title: '', content: '' });
   const [files, setFiles] = useState([]);
  
-  const [audioText, setAudioText] = useState('');
-  const [isRecording, setIsRecording] = useState(false);
-  const recognitionRef = useRef(null);
+  // const [audioText, setAudioText] = useState('');
+  // const [isRecording, setIsRecording] = useState(false);
+  // const recognitionRef = useRef(null);
 
   // Initialize Web Speech API
-  const initializeSpeechRecognition = () => {
-    if (!('webkitSpeechRecognition' in window)) {
-      alert('Web Speech API not supported in this browser');
-      return;
-    }
-    const SpeechRecognition = window.webkitSpeechRecognition;
-    recognitionRef.current = new SpeechRecognition();
-    recognitionRef.current.lang = 'en-US';
-    recognitionRef.current.interimResults = true;
+  // const initializeSpeechRecognition = () => {
+  //   if (!('webkitSpeechRecognition' in window)) {
+  //     alert('Web Speech API not supported in this browser');
+  //     return;
+  //   }
+  //   const SpeechRecognition = window.webkitSpeechRecognition;
+  //   recognitionRef.current = new SpeechRecognition();
+  //   recognitionRef.current.lang = 'en-US';
+  //   recognitionRef.current.interimResults = true;
 
-    recognitionRef.current.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setAudioText(transcript);
-    };
+  //   recognitionRef.current.onresult = (event) => {
+  //     const transcript = event.results[0][0].transcript;
+  //     setAudioText(transcript);
+  //   };
 
-    recognitionRef.current.onend = () => {
-      setIsRecording(false);
-    };
-  };
+  //   recognitionRef.current.onend = () => {
+  //     setIsRecording(false);
+  //   };
+  // };
 
   // Start/Stop Audio Recording
-  const toggleAudioRecording = () => {
-    if (isRecording) {
-      recognitionRef.current.stop();
-    } else {
-      recognitionRef.current.start();
-    }
-    setIsRecording(!isRecording);
-  };
+  // const toggleAudioRecording = () => {
+  //   if (isRecording) {
+  //     recognitionRef.current.stop();
+  //   } else {
+  //     recognitionRef.current.start();
+  //   }
+  //   setIsRecording(!isRecording);
+  // };
 
   
 
   const handleClick = (e) => {
     e.preventDefault();
     const title = note.title.trim();
-    const content = (note.content || '') + (audioText ? `\n${audioText}` : '');
+    const content = (note.content || '').trim();
     
     if (!title && !content) {
       props.showalert('Please add some details before submitting!', 'warning');
@@ -64,7 +64,7 @@ const Addnote = (props) => {
     addNote(formData);
     setNotes({ title: '', content: '' });
     setFiles([]);
-    setAudioText('');
+    // setAudioText('');
     props.showalert('Added Note successfully', 'success');
   };
 
@@ -81,19 +81,19 @@ const Addnote = (props) => {
           <textarea className='form-control' id='content' name='content' value={note.content} onChange={(e) => setNotes({ ...note, content: e.target.value })} />
         </div>
 
-        <div className='mb-3'>
+        {/* <div className='mb-3'>
           <label htmlFor='audioText' className='form-label'>Audio Transcription</label>
           <textarea className='form-control' id='audioText' value={audioText} readOnly />
           <button type='button' className='btn btn-secondary mt-2' onClick={toggleAudioRecording}>
             {isRecording ? 'Stop Recording' : 'Start Recording'}
           </button>
-        </div>
+        </div> */}
         <div className='mb-3'>
           <label htmlFor='images' className='form-label'>Upload Images</label>
           <input type='file' id='images' multiple onChange={(e) => setFiles(e.target.files)} className='form-control' />
         </div>
         <button type='submit' className='btn btn-primary mt-3' onClick={handleClick}>ADD</button>
-        <button type='button' className='btn btn-outline-secondary mt-3 ml-2' onClick={initializeSpeechRecognition}>Initialize Speech API</button>
+        {/* <button type='button' className='btn btn-outline-secondary mt-3 ml-2' onClick={initializeSpeechRecognition}>Initialize Speech API</button> */}
       </form>
     </div>
   );

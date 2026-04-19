@@ -23,7 +23,7 @@ router.post(
     let success= false;
     const result = validationResult(req);
     if (!result.isEmpty()) {
-      return res.send({success, errors: result.array() });
+      return res.status(400).json({ success, error: result.array()[0].msg });
     }
 
     try {
@@ -50,7 +50,7 @@ router.post(
       };
       const authtoken = jwt.sign(data, JWT_SECRET);
       success= true;
-      console.log(success, authtoken);
+      // console.log(success, authtoken);
       res.json({success, authtoken});
       } catch (error) {
       // console.log(error.message);
@@ -70,7 +70,7 @@ router.post(
     let success= false;
     const result = validationResult(req);
     if (!result.isEmpty()) {
-      return res.send({ errors: result.array() });
+      return res.status(400).json({ errors: result.array() });
     }
 
     const { email, password } = req.body;
